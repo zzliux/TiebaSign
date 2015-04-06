@@ -22,7 +22,7 @@
 	<head>
 		<title>贴吧签到托管-用户管理</title>
 		<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		<style>
 		body {
 			padding-top: 80px;
