@@ -783,6 +783,31 @@ EOF;
 		return $this->commonReturn($result);
 	}
 
+	public function signForZhidao(){
+		$cookie = $this->cookie;
+		$postData = 'cm=100509';
+		$url = 'http://zhidao.baidu.com/submit/user';
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$content = curl_exec($ch);
+		curl_close($ch);
+		return json_decode($content, 1);
+		//0且msg是success表示成功,2表示已签
+	}
+
+	/* 仅测试,这个还不知道可不可以用 */
+	public function signForWenku(){
+		$cookie = $this->cookie;
+		$url = 'http://wenku.baidu.com/task/submit/signin';
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_COOKIE,$cookie);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$content = curl_exec($ch);
+		curl_close($ch);
+		return json_decode($content, 1);
+	}
 }
-
-
