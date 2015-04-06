@@ -11,9 +11,17 @@
 	if($t1==0&&$t2<=10){
 		$sql = 'update tieba set is_sign = 0';
 		$DB->query($sql);
+		$sql = 'select * from info';
+		$result = $DB->query($sql);
+		while($row = $result->fetch_assoc()){
+			var_dump($row['bduss']);
+			$utl = new BaiduUtil($row['bduss']);
+			$utl->signForZhidao();
+			$utl->signForWenku();
+		}
 		die('Update Queueing Succesfully');
 	}
-	$n=10;
+	$n=15;
 	$last=0;
 	while($n--){
 		$sql="select * from tieba where is_sign = 0 order by rand() limit 1";
@@ -50,7 +58,7 @@
 		$sql="update tieba set is_sign = {$st} where uid={$row[uid]} and tieba = '{$row[tieba]}'";
 		$DB->query($sql);
 		unset($utl);
-		var_dump($re);
+//		var_dump($re);
 	}
 	echo 'ok';
 ?>
