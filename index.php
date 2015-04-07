@@ -29,7 +29,7 @@
 					<button type="submit" class="btn btn-primary btn-block">提交</button>
 				</form>
 				<br>
-				<a href="query.php">签到查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="refresh.php">更新贴吧</a>
+				<a href="query.php">签到查询</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="refresh.php">更新贴吧</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="BDUSSbyLogin.php">自动获取BDUSS</a>
 			</div>
 		</div>
 	</body>
