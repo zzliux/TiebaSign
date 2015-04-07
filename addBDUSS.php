@@ -9,6 +9,7 @@
 	require_once('BaiduUtil.php');
 	$utl = new BaiduUtil($bduss);
 	$con->query('SET NAMES utf8');
+	$utl->un();
 	if(!empty($utl->lastFetch['user']['id'])){
 		$id=$utl->lastFetch['user']['id'];
 		$name=$utl->lastFetch['user']['name'];
