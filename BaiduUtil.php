@@ -43,8 +43,6 @@ class BaiduUtil{
 		}
 		if(isset($userinfo['un'])){
 			$this->un = $userinfo['un'];
-		}else{
-			$this->un();
 		}
 		if(isset($userinfo['uid'])) $this->uid = $userinfo['uid'];
 	}
