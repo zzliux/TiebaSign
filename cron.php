@@ -14,7 +14,6 @@
 		$sql = 'select * from info';
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
-			var_dump($row['bduss']);
 			$utl = new BaiduUtil($row['bduss']);
 			$utl->signForZhidao();
 			$utl->signForWenku();
@@ -58,7 +57,6 @@
 		$sql="update tieba set is_sign = {$st} where uid={$row[uid]} and tieba = '{$row[tieba]}'";
 		$DB->query($sql);
 		unset($utl);
-//		var_dump($re);
 	}
 	echo 'ok';
 ?>
