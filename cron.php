@@ -8,7 +8,7 @@
 		die($DB->connect_error);
 	}
 	$DB->query("SET NAMES utf8");
-	if($t1==0&&$t2<=10){
+	if($t1==0&&$t2<=30){
 		$sql = 'update tieba set is_sign = 0';
 		$DB->query($sql);
 		$sql = 'select * from info';
