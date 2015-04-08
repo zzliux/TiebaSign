@@ -20,6 +20,7 @@
 		}
 		switch ($result['status']) {
 			case 0:
+				$bduss = $result['data']['bduss'];
 				require_once('install/config.php');
 				$DB = new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
 				if($DB->connect_errno){
