@@ -20,6 +20,7 @@
 		$DB->query($sql);
 		$sql = "DELETE FROM tieba WHERE uid = {$uid}";
 		$DB->query($sql);
+		$utl->un();
 		$result = $utl->fetchWebLikedForumList();
 		if(isset($utl->lastFetch['user']['id'])){
 			$sql="INSERT INTO `info` (`uid`, `un`, `bduss`) VALUES ('{$uid}', '{$name}', '{$bduss}');";
