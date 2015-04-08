@@ -42,7 +42,7 @@
 			padding-top: 80px;
 			background-color: #eee;
 		}
-		.form-panel{
+		footer,.form-panel{
 			max-width: 330px;
 			margin: 0 auto;
 		}
@@ -72,4 +72,6 @@
 			</div>
 		</div>
 	</body>
+	<footer>© 2015 <a href="http://www.zzliux.tk" target="_blank">zzliux</a></footer>
+	<!-- 感谢星弦雪大神提供的BaiduUtil和登录模板 -->
 </html>
