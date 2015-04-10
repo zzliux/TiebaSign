@@ -27,7 +27,6 @@
 			}
 			$i++;
 		}
-	//	var_dump($re);
 	}
 
 ?>
@@ -51,7 +50,7 @@
 	<body>
 		<?php
 			echo '<table class="table" style="max-width:500px;margin:0px auto;">';
-			echo '<thead><th>序号</th><th>贴吧</th><th>签到情况</th>';
+			echo '<thead><th>#</th><th>贴吧</th><th>签到情况</th>';
 			for($i=1;isset($re[$i]);$i++){
 				echo '<thead><th>'.$i.'</th><th>'.$re[$i]['tieba'].'</th><th>'.$re[$i]['is_sign'].'</th></thead>';
 			}
