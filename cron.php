@@ -56,6 +56,9 @@
 			case '160002': $st=2; break;
 			case '110001': $st=3; break;
 			case '340011': $st=4; break;
+			case '1':case '3':
+				$sql = "delete from tieba where uid = {$row[uid]}";
+				$DB->query($sql);
 		}
 		$sql="update tieba set is_sign = {$st} where uid={$row[uid]} and tieba = '{$row[tieba]}'";
 		$DB->query($sql);
