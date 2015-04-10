@@ -25,7 +25,7 @@
 		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		<style>
 		body {
-			padding-top: 80px;
+			padding-top: 10px;
 			background-color: #eee;
 		}
 		.form-panel{
@@ -59,6 +59,7 @@
 					</form>
 				</div>
 			</div>
+		</div>
 aaa;
 		}else{
 			require_once("../install/config.php");
@@ -100,4 +101,5 @@ aaa;
 		}
 	?>
 	</body>
+	<footer style="margin:0px auto;max-width:<?php if($flag) echo '500px'; else echo '330px'; ?>">© 2015 <a href="http://www.zzliux.tk">zzliux</a></footer>
 </html>
