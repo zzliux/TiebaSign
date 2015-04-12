@@ -87,7 +87,7 @@ aaa;
 						$f++;
 					}
 				}
-				echo "<tr><th>{$t}</th><th>{$row[un]}</th><th>{$y}</th><th>{$f}</th><th>{$q}</th><th>{$i}</th></tr>";
+				echo "<tr><th>{$t}</th><th><a href=\"?deun={$row[un]}\">{$row[un]}</a></th><th>{$y}</th><th>{$f}</th><th>{$q}</th><th>{$i}</th></tr>";
 			}
 			echo '</table>';
 			echo <<<aaa
@@ -95,9 +95,28 @@ aaa;
 					<form class="form-horizontal" role="form" method="post">
 						<button type="submit" name="logout" class="btn btn-primary btn-block" style="width:100px">退出登录</button>
 					</form>
-				</div>
-			</div>
 aaa;
+			if(isset($_GET['deun'])){
+				echo "
+					<form class=\"form-horizontal\" role=\"form\" method=\"post\">
+						<span>删除用户{$_GET[deun]},确定?
+						<button type=\"submit\" name=\"deun\" value=\"{$_GET[deun]}\" class=\"btn btn-danger\">删除</button>
+					</form>
+";
+			}
+			if(isset($_POST['deun'])){
+				$deun = $_POST['deun'];
+				$sql = "SELECT * FROM info WHERE un = '{$deun}'";
+				$result = $DB->query($sql);
+				if($row = $result->fetch_assoc()){
+					$sql = "DELETE FROM info WHERE uid = $row[uid]";
+					$DB->query($sql);
+					$sql = "DELETE FROM tieba WHERE uid = $row[uid]";
+					$DB->query($sql);
+					header('location:./');
+				}
+			}
+			echo '</div></div>';
 		}
 	?>
 	</body>
