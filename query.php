@@ -38,7 +38,7 @@
 		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		<style>
 		body {
-			padding-top: 80px;
+			padding-top: 10px;
 			background-color: #eee;
 		}
 		footer,.form-panel{
@@ -49,8 +49,8 @@
 	</head>
 	<body>
 		<?php
-			echo '<table class="table" style="max-width:500px;margin:0px auto;">';
-			echo '<thead><th>#</th><th>贴吧</th><th>签到情况</th>';
+			echo '<table class="table" style="max-width:330px;margin:0px auto;">';
+			echo '<thead><th>#</th><th>贴吧</th><th>status</th>';
 			for($i=1;isset($re[$i]);$i++){
 				echo '<thead><th>'.$i.'</th><th>'.$re[$i]['tieba'].'</th><th>'.$re[$i]['is_sign'].'</th></thead>';
 			}
