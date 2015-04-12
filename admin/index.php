@@ -99,7 +99,7 @@ aaa;
 			if(isset($_GET['deun'])){
 				echo "
 					<form class=\"form-horizontal\" role=\"form\" method=\"post\">
-						<span>删除用户{$_GET[deun]},确定?
+						<span>删除用户<font color=\"red\">{$_GET[deun]}</font>,确定?
 						<button type=\"submit\" name=\"deun\" value=\"{$_GET[deun]}\" class=\"btn btn-danger\">删除</button>
 					</form>
 ";
