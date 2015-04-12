@@ -1,5 +1,8 @@
 <?php
 	session_start();
+	if(isset($_POST['query'])){
+				header('location:../query.php?un='.$_POST['query']);
+			}
 	if($_SESSION['admin'] == 1){
 		$flag = 1;
 	}else{
@@ -33,7 +36,7 @@
 			margin: 0 auto;
 		}
 		button {
-			max-width: 270px;
+			width: 100px;
 			margin-right:0px auto;
 		}
 		</style>
@@ -73,6 +76,17 @@ aaa;
 			echo '<div class="panel panel-primary form-panel" style="max-width:500px">
 				<div class="panel-heading">用户管理</div>
 				<div class="panel-body"><table class="table" style="max-width:500px;margin:0px auto;"><thead><th>#</th><th>ID</th><th>成功数</th><th>失败数</th><th>队列数</th><th>总数</th></thead>';
+			if(isset($_GET['deun'])){
+				echo "
+					<form class=\"form-horizontal\" role=\"form\" method=\"post\">
+						<span><font color=\"red\">{$_GET[deun]}</font>操作
+						<div class=\"btn-group\">
+							<button type=\"submit\" name=\"query\" value=\"{$_GET[deun]}\" class=\"btn btn-success\">签到情况</button>
+							<button type=\"submit\" name=\"deun\" value=\"{$_GET[deun]}\" class=\"btn btn-danger\">删除</button>
+						</div>
+					</form>
+";
+			}
 			$t=0;
 			while($row = $result->fetch_assoc()){
 				$t++;
@@ -96,14 +110,6 @@ aaa;
 						<button type="submit" name="logout" class="btn btn-primary btn-block" style="width:100px">退出登录</button>
 					</form>
 aaa;
-			if(isset($_GET['deun'])){
-				echo "
-					<form class=\"form-horizontal\" role=\"form\" method=\"post\">
-						<span>删除用户<font color=\"red\">{$_GET[deun]}</font>,确定?
-						<button type=\"submit\" name=\"deun\" value=\"{$_GET[deun]}\" class=\"btn btn-danger\">删除</button>
-					</form>
-";
-			}
 			if(isset($_POST['deun'])){
 				$deun = $_POST['deun'];
 				$sql = "SELECT * FROM info WHERE un = '{$deun}'";
