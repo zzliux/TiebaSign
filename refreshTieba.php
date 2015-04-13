@@ -1,13 +1,18 @@
 <meta charset="utf-8">
 <?php
-	if(isset($_POST['un'])){
+	if(isset($_POST['un'])||isset($_GET['un'])){
+		if(isset($_POST['un'])){
+			$un = $_POST['un'];
+		}else{
+			$un = $_GET['un'];
+		}
 		require_once('install/config.php');
 		$DB = new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
 		if($DB->connect_errno){
 			die($DB->connect_error);
 		}
 		$DB->query('SET NAMES utf8');
-		$sql = "select * from info where un='{$_POST[un]}'";
+		$sql = "select * from info where un='{$un}'";
 		$result = $DB->query($sql);
 		if(!($row = $result->fetch_assoc())){
 			die('本站木有这个用户哟~~<a href="refresh.php">返回</a>');
