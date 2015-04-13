@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <?php
 	if(isset($_POST['un'])){
 		require_once('install/config.php');
