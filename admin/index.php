@@ -1,8 +1,11 @@
 <?php
 	session_start();
 	if(isset($_POST['query'])){
-				header('location:../query.php?un='.$_POST['query']);
-			}
+		header('location:../query.php?un='.$_POST['query']);
+	}
+	if(isset($_POST['refresh'])){
+		header('location:../refreshTieba.php?un='.$_POST['refresh']);
+	}
 	if($_SESSION['admin'] == 1){
 		$flag = 1;
 	}else{
@@ -75,13 +78,15 @@ aaa;
 			$result = $DB->query($sql);
 			echo '<div class="panel panel-primary form-panel" style="max-width:500px">
 				<div class="panel-heading">用户管理</div>
-				<div class="panel-body"><table class="table" style="max-width:500px;margin:0px auto;"><thead><th>#</th><th>ID</th><th>成功数</th><th>失败数</th><th>队列数</th><th>总数</th></thead>';
+				<div class="panel-body"><table class="table" s
+				tyle="max-width:500px;margin:0px auto;"><thead><th>#</th><th>ID</th><th>成功数</th><th>失败数</th><th>队列数</th><th>总数</th></thead>';
 			if(isset($_GET['deun'])){
 				echo "
 					<form class=\"form-horizontal\" role=\"form\" method=\"post\">
 						<span><font color=\"red\">{$_GET[deun]}</font>操作
 						<div class=\"btn-group\">
 							<button type=\"submit\" name=\"query\" value=\"{$_GET[deun]}\" class=\"btn btn-success\">签到情况</button>
+							<button type=\"submit\" name=\"refresh\" value=\"{$_GET[deun]}\" class=\"btn btn-primary\">刷新贴吧</button>
 							<button type=\"submit\" name=\"deun\" value=\"{$_GET[deun]}\" class=\"btn btn-danger\">删除</button>
 						</div>
 					</form>
