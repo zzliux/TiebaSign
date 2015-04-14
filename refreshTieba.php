@@ -39,5 +39,7 @@
 		}else{
 			die('这个用户的BDUSS已经过期了哟~~<a href="./">提交BDUSS</a>');
 		}
+	}else{
+		die('请输入用户名');
 	}
 ?>
