@@ -23,7 +23,7 @@
 					<div class="form-group">
 						<label for="input_user_name" class="col-sm-3 control-label">用户名</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="input_user_name" name="un" placeholder="仅可使用百度ID">
+							<input type="text" class="form-control" id="input_user_name" name="un" placeholder="仅可使用百度ID" value="<?php echo $_GET[un] ?>">
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary btn-block">提交</button>
