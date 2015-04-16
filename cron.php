@@ -28,21 +28,27 @@
 			$uid = $row['uid'];
 			$name = $row['un'];
 			$utl = new BaiduUtil($bduss);
-			$sql = "DELETE FROM info WHERE uid = {$uid}";
-			$DB->query($sql);
-			$sql = "DELETE FROM tieba WHERE uid = {$uid}";
-			$DB->query($sql);
 			$utl->un();
 			$result = $utl->fetchWebLikedForumList();
 			if(isset($utl->lastFetch['user']['id'])){
+				$sql = "DELETE FROM info WHERE uid = {$uid}";
+				$DB->query($sql);
 				$sql="INSERT INTO `info` (`uid`, `un`, `bduss`) VALUES ('{$uid}', '{$name}', '{$bduss}');";
 				$DB->query($sql);
+				$count = 0;
 				for($i=0;isset($result['data'][$i]);$i++){
-					$sql="INSERT INTO `tieba` (`uid`, `tieba`, `is_sign`) VALUES ('{$uid}','{$result[data][$i][forum_name]}', '0');";
-					$DB->query($sql);
+					$sql = "SELECT * FROM tieba WHERE tieba = '{$result['data'][$i]['forum_name']}' AND uid = {$uid}";
+					$result2 = $DB->query($sql);
+					$row = $result2->fetch_assoc();
+					if(empty($row['uid'])){
+						$sql="INSERT INTO `tieba` (`uid`, `tieba`, `is_sign`) VALUES ('{$uid}','{$result[data][$i][forum_name]}', '0');";
+						$DB->query($sql);
+						$count++;
+					}
 				}
 			}
 			unset($utl);
+			echo '更新成功,用户'.$name.'新增'.$count.'个贴吧'.'<br>';
 		}
 		return '';
 	}
