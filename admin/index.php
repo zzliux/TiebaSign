@@ -127,7 +127,7 @@ aaa;
 					header('location:./');
 				}
 			}
-			echo '</div></div>';
+			echo '</div>&nbsp;&nbsp;&nbsp;&nbsp;<a href="task.php">计划任务</a></div>';
 		}
 	?>
 	</body>
