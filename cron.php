@@ -94,7 +94,6 @@
 	}
 
 	function getTask($time){
-		$content = file_get_contents('cronlog.php');
 		$re = json_decode(file_get_contents('cronlog.php'),1);
 		foreach($re as $key => $value){
 			$t = explode(' ',$value);
