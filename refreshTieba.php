@@ -41,7 +41,7 @@
 				}
 			}
 			unset($utl);
-			die('更新成功,用户'.$name.'新增'.$count.'个贴吧<br><a href="query.php?un='.$name.'">签到查询</a>');
+			die('更新成功,用户'.$name.'新增'.$count.'个贴吧<br><a href="./?un='.$name.'">签到查询</a>');
 		}else{
 			die('这个用户的BDUSS已经过期了哟~~<a href="./">提交BDUSS</a>');
 		}
