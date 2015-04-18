@@ -29,7 +29,7 @@
 					<button type="submit" class="btn btn-primary btn-block">提交</button>
 				</form>
 				<br>
-				<a href="query.php">签到查询</a>
+				<a href="./">签到查询</a>
 			</div>
 		</div>
 	</body>
