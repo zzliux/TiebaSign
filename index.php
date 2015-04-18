@@ -5,13 +5,23 @@
 		die($DB->connect_error);
 	}
 	$DB->query('SET NAMES utf8');
-	$name=$_GET['un'];
+	if(isset($_COOKIE['user'])){
+		$name=$_COOKIE['user'];
+	}
+	if(isset($_GET['un'])){
+		$name=$_GET['un'];
+	}
 	if(!empty($name)){
 		$sql="select * from info where un='{$name}'";
 		$result=$DB->query($sql);
 		$row=$result->fetch_assoc();
 		if(empty($row['uid'])){
-			die('本站木有这个用户哟~<a href="query.php">返回</a>~');
+			die('本站木有这个用户哟~<a href="./">返回</a>~');
+		}
+		setcookie('user',$name,time()+60*60*24*30);
+		session_start();
+		if($_SESSION['admin']==1){
+			setcookie('user', '', time()-3600);
 		}
 		$sql="select * from tieba where uid={$row[uid]}";
 		$result=$DB->query($sql);
