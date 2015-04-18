@@ -29,6 +29,6 @@
 			$sql="INSERT INTO `tieba` (`uid`, `tieba`, `is_sign`) VALUES ('{$id}','{$tieba[data][$i][forum_name]}', '0');";
 			$con->query($sql);
 		}
-		die('成功添加<a href="./">返回</a');
+		die('用户'.$utl->un().'成功添加<a href="./?un='.$utl->un().'">返回</a');
 	}
 ?>
