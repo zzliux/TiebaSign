@@ -33,7 +33,7 @@
 			background-color: #eee;
 		}
 		footer,.form-panel{
-			max-width: 330px;
+			max-width: 350px;
 			margin: 0 auto;
 		}
 		</style>
@@ -82,14 +82,16 @@
 				}
 			}
 			$i--;
-			echo "<pre style=\"max-width:160px\">成功数/总数:<font color=\"#008000\"><b>{$y}</b></font>/<font color=\"#FFA500\"><b>{$i}</b></font></pre>";
-			echo "<form method=\"post\"><button class=\"btn btn-danger\" name=\"resetTieba\" value=\"{$name}\">重置贴吧</button></from>";
-			echo '<table class="table" style="max-width:330px;margin:0px auto;">';
-			echo '<thead><th>#</th><th>贴吧</th><th>status</th>';
-			for($i=1;isset($re[$i]);$i++){
-				echo '<thead><th>'.$i.'</th><th>'.$re[$i]['tieba'].'</th><th>'.$re[$i]['is_sign'].'</th></thead>';
+			if(!empty($name)){
+				echo "<pre style=\"max-width:160px\">成功数/总数:<font color=\"#008000\"><b>{$y}</b></font>/<font color=\"#FFA500\"><b>{$i}</b></font></pre>";
+				echo "<form method=\"post\"><button class=\"btn btn-danger\" name=\"resetTieba\" value=\"{$name}\">重置贴吧</button></from>";
+				echo '<table class="table" style="max-width:330px;margin:0px auto;">';
+				echo '<thead><th>#</th><th>贴吧</th><th>status</th>';
+				for($i=1;isset($re[$i]);$i++){
+					echo '<thead><th>'.$i.'</th><th>'.$re[$i]['tieba'].'</th><th>'.$re[$i]['is_sign'].'</th></thead>';
+				}
+				echo '</table>';
 			}
-			echo '</table>';
 			$DB->close();
 		?>
 			</div>
