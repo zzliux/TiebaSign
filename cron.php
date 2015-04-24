@@ -116,9 +116,6 @@
 			$row = $result->fetch_assoc();
 			if(($st==1||$st==4)&&$last==$row['uid']){
 				sleep(10);
-				$sql="select * from tieba where is_sign = 0 and uid = {$row[uid]} order by rand() limit 1";
-				$result = $DB->query($sql);
-				$row = $result->fetch_assoc();
 			}
 			$last=$row['uid'];
 			if(empty($row)){
