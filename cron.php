@@ -4,6 +4,12 @@
 	require_once('BaiduUtil.php');
 	$time = date('H:i',time());
 
+	$t = explode(':',$time);
+	if($t[1]>=0&&$t[1]<=2 && $t[0]%4==0){
+		refresh();
+		die();
+	}
+
 	echo getTask($time);	
 	switch(getTask($time)){
 		case 'refresh': refresh(); break;
@@ -50,6 +56,7 @@
 			unset($utl);
 			echo '更新成功,用户'.$name.'新增'.$count.'个贴吧'.'<br>';
 		}
+		$DB->close();
 		return '';
 	}
 
@@ -115,7 +122,10 @@
 			$result = $DB->query($sql);
 			$row = $result->fetch_assoc();
 			if(($st==1||$st==4)&&$last==$row['uid']){
-				sleep(10);
+				sleep(10);/*
+				$sql="select * from tieba where is_sign = 0 and uid = {$row[uid]} order by rand() limit 1";
+				$result = $DB->query($sql);
+				$row = $result->fetch_assoc();*/
 			}
 			$last=$row['uid'];
 			if(empty($row)){
@@ -139,6 +149,7 @@
 			$bduss=$row_['bduss'];
 			$utl=new BaiduUtil($bduss);
 			$re=$utl->sign($row['tieba']);
+			var_dump($re);
 			switch($re['status']){
 				case '0': $st=1; break;
 				case '160002': $st=2; break;
@@ -152,6 +163,7 @@
 			$sql="update tieba set is_sign = {$st} where uid={$row[uid]} and tieba = '{$row[tieba]}'";
 			$DB->query($sql);
 			unset($utl);
+	//		sleep(1);
 		}
 		$DB->close();
 		return 'ok';
