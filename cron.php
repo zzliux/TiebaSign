@@ -4,9 +4,8 @@
 	require_once('BaiduUtil.php');
 	$time = date('H:i',time());
 
-	$t = explode(':',$time);
 	if($t[1]>=0&&$t[1]<=2 && $t[0]%4==0){
-		refresh();
+		update();
 		die();
 	}
 
