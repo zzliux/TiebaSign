@@ -382,7 +382,7 @@ class BaiduUtil{
 	}
 
 	/* 获取网页上的贴吧 */
-	public function fetchWebLikedForumList(){
+	public function fetchWebLikedForumList($num=1000){
 		$cookie = $this->cookie;
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'http://tieba.baidu.com/f/like/mylike');
@@ -405,7 +405,7 @@ class BaiduUtil{
 			$result_[$i]=str_replace('>', '', $result_[$i]);
 			$result_[$i]=str_replace('<', '', $result_[$i]);
 		}
-		for($i=0;isset($result_[$i]);$i+=2){
+		for($i=0;isset($result_[$i])&&$i<2*$num;$i+=2){
 			$re['data'][$i/2]['forum_name']=$result_[$i][0];
 			$re['data'][$i/2]['forum_exp']=$result_[$i+1][0];
 		}
