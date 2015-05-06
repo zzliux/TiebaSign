@@ -9,7 +9,7 @@
 		$name=$_COOKIE['user'];
 	}
 	if(isset($_GET['un'])){
-		$name=$_GET['un'];
+		$name=$DB->real_escape_string($_GET['un']);
 	}
 	if(isset($_POST['resetTieba'])){
 		$resName = $_POST['resetTieba'];
