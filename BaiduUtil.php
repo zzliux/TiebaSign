@@ -104,7 +104,7 @@ class BaiduUtil{
 		}
 		$this->last_formData = $this->formData;
 		$this->formData      = array();
-		$this->lastFetch      = $result;
+		$this->lastFetch     = $result;
 		return $result;
 	}
 
@@ -390,24 +390,18 @@ class BaiduUtil{
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$content = curl_exec($ch);
 		$content = iconv('GBK', 'UTF-8', $content);
-		preg_match('/<a href="\/f\/like\/mylike\?&pn=\d+">尾页/', $content , $result);
-		$result = str_replace('">尾页', '', $result[0]);
-		$len = str_replace('<a href="/f/like/mylike?&pn=', '', $result);
+		preg_match('/<a href="\/f\/like\/mylike\?&pn=(\d+)">尾页/', $content , $result);
+		$len = $result[1];
 		for($i=2;$i<=$len;$i++){
 			curl_setopt($ch, CURLOPT_URL, 'http://tieba.baidu.com/f/like/mylike?pn='.$i);
 			$tem=curl_exec($ch);
 			$content.=iconv('GBK', 'UTF-8', $tem);
 		}
 		curl_close($ch);
-		preg_match_all('/kw=[^>]+>[^<]+</', $content, $result);
-		for($i=0;isset($result[0][$i]);$i++){
-			preg_match('/>.+</', $result[0][$i], $result_[$i]);
-			$result_[$i]=str_replace('>', '', $result_[$i]);
-			$result_[$i]=str_replace('<', '', $result_[$i]);
-		}
-		for($i=0;isset($result_[$i])&&$i<2*$num;$i+=2){
-			$re['data'][$i/2]['forum_name']=$result_[$i][0];
-			$re['data'][$i/2]['forum_exp']=$result_[$i+1][0];
+		preg_match_all('/kw=[^>]+>([^<]+)</', $content, $result);
+		for($i=0;isset($result[1][$i])&&$i<2*$num;$i+=2){
+			$re['data'][$i/2]['forum_name']=$result[1][$i];
+			$re['data'][$i/2]['forum_exp']=$result[1][$i+1];
 		}
 		return $re;
 	}
