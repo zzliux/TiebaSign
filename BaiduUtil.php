@@ -798,6 +798,7 @@ EOF;
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_COOKIE,$cookie);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Referer:http://wenku.baidu.com/task/browse/daily'));
 		$content = curl_exec($ch);
 		curl_close($ch);
 		return json_decode($content, 1);
