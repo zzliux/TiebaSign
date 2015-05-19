@@ -1,15 +1,15 @@
 <meta charset="utf-8">
 <?php
 	if(isset($_POST['un'])||isset($_GET['un'])){
-		if(isset($_POST['un'])){
-			$un = $_POST['un'];
-		}else{
-			$un = $_GET['un'];
-		}
 		require_once('install/config.php');
 		$DB = new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
 		if($DB->connect_errno){
 			die($DB->connect_error);
+		}
+		if(isset($_POST['un'])){
+			$un = $DB->real_escape_string($_POST['un']);
+		}else{
+			$un = $_GET['un'];
 		}
 		$DB->query('SET NAMES utf8');
 		$sql = "select * from info where un='{$un}'";
