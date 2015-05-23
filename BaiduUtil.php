@@ -798,7 +798,11 @@ EOF;
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_COOKIE,$cookie);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Referer:http://wenku.baidu.com/task/browse/daily'));
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Referer:http://wenku.baidu.com/task/browse/daily',
+			'User-Agent:Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2224.3 Safari/537.36',
+			'X-Requested-With: XMLHttpRequest'
+			));
 		$content = curl_exec($ch);
 		curl_close($ch);
 		$this->collect_book($this->bduss);
@@ -810,7 +814,7 @@ EOF;
 		$ch = curl_init( 'http://appwk.baidu.com/nauser/collect');
 		curl_setopt( $ch, CURLOPT_HTTPHEADER, array('User-Agent: Dalvik/1.6.0 (Linux; U; Android 4.4.2; SM-G900F Build/KOT49H)'));
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_COOKIE, $cookie );
+		curl_setopt( $ch, CURLOPT_COOKIE, $this->cookie );
 		curl_setopt( $ch, CURLOPT_POST, true );
 		$array = array(
 				'doc_id'=> '6fb6872af7ec4afe04a1dfdc',	//收藏的图书的ID
@@ -841,7 +845,7 @@ EOF;
 		$ch = curl_init ( 'http://appwk.baidu.com/nauser/deletebook');
 		curl_setopt( $ch, CURLOPT_HTTPHEADER, array ('User-Agent: Dalvik/1.6.0 (Linux; U; Android 4.4.2; SM-G900F Build/KOT49H)') );
 		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_COOKIE, $cookie );
+		curl_setopt( $ch, CURLOPT_COOKIE, $this->cookie );
 		curl_setopt( $ch, CURLOPT_POST, true );
 		$array = array(
 				'app_ver'=> '2.4.9',
