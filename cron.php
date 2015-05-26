@@ -15,7 +15,7 @@
 		case 'refresh': refresh(); break;
 		case 'tieba': signForTieba(20); break;
 		case 'zhidao': signForZhidao(); break;
-		case 'wenku': signForWenku(); break;
+		case 'wenku': signForWenku($t[1]); break;
 		case 'update': update(); break;
 		default: echo 'over'; break;
 	}
@@ -70,15 +70,20 @@
 		$DB->close();
 	}
 
-	function signForWenku(){
+	function signForWenku($t){
 		$DB=new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
 		if($DB->connect_errno){
 			die($DB->connect_error);
 		}
 		$DB->query("SET NAMES utf8");
-		$sql = 'select * from info';
+		if($t%2==0){
+			$sql = 'select * from info order by uid';
+		}else{
+			$sql = 'select * from info order by uid desc';
+		}
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
+			echo '<br>'.$row['un'];
 			$utl = new BaiduUtil($row['bduss']);
 			$utl->signForWenku();
 		}
@@ -91,7 +96,7 @@
 			die($DB->connect_error);
 		}
 		$DB->query("SET NAMES utf8");
-		$sql = 'select * from info';
+		$sql = 'select * from info order by uid';
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
 			$utl = new BaiduUtil($row['bduss']);
@@ -122,10 +127,7 @@
 			$result = $DB->query($sql);
 			$row = $result->fetch_assoc();
 			if(($st==1||$st==4)&&$last==$row['uid']){
-				sleep(10);/*
-				$sql="select * from tieba where is_sign = 0 and uid = {$row[uid]} order by rand() limit 1";
-				$result = $DB->query($sql);
-				$row = $result->fetch_assoc();*/
+				sleep(10);
 			}
 			$last=$row['uid'];
 			if(empty($row)){
