@@ -51,7 +51,7 @@
 					</div>
 					<button type="submit" class="btn btn-primary btn-block">查询</button>
 				</form>
-				<br><a href="./refresh.php?un=<?php echo $_GET[un] ?>">更新贴吧</a>&nbsp;&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a><br>
+				<br><a href="./refresh.php?un=<?php echo $name ?>">更新贴吧</a>&nbsp;&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a><br>
 		<?php
 			if(!empty($name)){
 				$sql="select * from info where un='{$name}'";
