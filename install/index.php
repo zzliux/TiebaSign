@@ -1,4 +1,5 @@
 <?php 
+	header("Content-type: text/html; charset=utf-8");
 	if(file_exists('config.php')){
 		die ('已经成功安装数据库!');
 	}
@@ -26,9 +27,10 @@
 		}
 		
 		$sql = "CREATE TABLE IF NOT EXISTS `info` (
-  `uid` int(11) DEFAULT NULL,
+  `uid` int(11) NULL PRIMARY KEY,
   `un` text,
-  `bduss` text
+  `bduss` text,
+  `is_refresh` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ";
 		$DB->query($sql);
