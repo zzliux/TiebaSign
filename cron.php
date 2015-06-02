@@ -1,4 +1,5 @@
 <?php
+	header("Content-type: text/html; charset=utf-8");
 	date_default_timezone_set('PRC');//设置北京时间
 	require_once('install/config.php');
 	require_once('BaiduUtil.php');
@@ -10,7 +11,7 @@
 		die();
 	}
 
-	echo getTask($time);	
+	echo getTask($time).'<br>';	
 	switch(getTask($time)){
 		case 'refresh': refresh(); break;
 		case 'tieba': signForTieba(20); break;
@@ -27,7 +28,7 @@
 		}
 		$DB->query("SET NAMES utf8");
 		while($n--){
-			$sql = 'SELECT * FROM info LIMIT 1';
+			$sql = 'SELECT * FROM info WHERE is_refresh = 0 LIMIT 1';
 			$result = $DB->query($sql);
 			$row = $result->fetch_assoc();
 			$bduss = $row['bduss'];
@@ -37,10 +38,7 @@
 			$utl->un();
 			$result = $utl->fetchWebLikedForumList();
 			if(isset($utl->lastFetch['user']['id'])){
-				$sql = "DELETE FROM info WHERE uid = {$uid}";
-				$DB->query($sql);
-				$sql="INSERT INTO `info` (`uid`, `un`, `bduss`) VALUES ('{$uid}', '{$name}', '{$bduss}');";
-				$DB->query($sql);
+				$DB->query("update info set is_refresh = 1 where uid = {$uid}");
 				$count = 0;
 				for($i=0;isset($result['data'][$i]);$i++){
 					$sql = "SELECT * FROM tieba WHERE tieba = '{$result['data'][$i]['forum_name']}' AND uid = {$uid}";
@@ -66,6 +64,8 @@
 			die($DB->connect_error);
 		}
 		$sql = 'update tieba set is_sign = 0';
+		$DB->query($sql);
+		$sql = 'update info set is_refresh = 0';
 		$DB->query($sql);
 		$DB->close();
 	}
