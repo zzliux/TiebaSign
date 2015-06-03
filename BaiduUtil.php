@@ -2,6 +2,7 @@
 /*
  * baidu class | Version 1.0.1 | Copyright 2014, Cai Cai | Released under the MIT license
  * login、sign、post、zan、meizhi、tdou
+ * zhidao、wenku
  */
 class BaiduUtil{
 
@@ -786,6 +787,8 @@ EOF;
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		$content = curl_exec($ch);
 		curl_close($ch);
+
+
 		return json_decode($content, 1);
 		//0且msg是success表示成功,2表示已签
 	}
@@ -869,5 +872,34 @@ EOF;
 		$re = @json_decode(curl_exec($ch),ture);
 		curl_close( $ch );
 		return $re;	  
+	}
+
+	/* 百度知道免费抽奖 */
+	public function zhidaoFreeLuck(){
+		$cookie = $this->cookie;
+		$ch = curl_init();
+		$url = 'http://zhidao.baidu.com/shop/lottery';
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_COOKIE, $cookie);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$content = curl_exec($ch);
+		preg_match_all('/\'luckyToken\', \'(\w+)\'|\'freeChance\', \'(\w+)\'/', $content, $result);
+		$freeChance = $result[2][0];
+		if($freeChance != '1'){
+			$re['errno'] = '1';
+			$re['errmsg'] = '当前没有免费抽奖';
+			return $re;
+		}
+		$luckyToken = $result[1][1];
+		$url = "http://zhidao.baidu.com/shop/submit/lottery?type=0&token={$luckyToken}";
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Referer:http://zhidao.baidu.com/shop/lottery',
+			'User-Agent:Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2224.3 Safari/537.36',
+			'X-Requested-With: XMLHttpRequest'
+			));
+		$content = curl_exec($ch);
+		curl_close($ch);
+		return json_decode($content,true);
 	}
 }
