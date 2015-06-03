@@ -12,12 +12,14 @@
 	}
 
 	echo getTask($time).'<br>';	
+	
 	switch(getTask($time)){
 		case 'refresh': refresh(); break;
 		case 'tieba': signForTieba(20); break;
 		case 'zhidao': signForZhidao(); break;
 		case 'wenku': signForWenku($t[1]); break;
 		case 'update': update(); break;
+		case 'zhidaoLuck': zhidaoLuck(); break;
 		default: echo 'over'; break;
 	}
 
@@ -101,6 +103,20 @@
 		while($row = $result->fetch_assoc()){
 			$utl = new BaiduUtil($row['bduss']);
 			$utl->signForZhidao();
+		}
+		$DB->close();
+	}
+	function zhidaoLuck(){
+		$DB=new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
+		if($DB->connect_errno){
+			die($DB->connect_error);
+		}
+		$DB->query("SET NAMES utf8");
+		$sql = 'select * from info order by uid';
+		$result = $DB->query($sql);
+		while($row = $result->fetch_assoc()){
+			$utl = new BaiduUtil($row['bduss']);
+			$utl->zhidaoFreeLuck();
 		}
 		$DB->close();
 	}
