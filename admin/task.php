@@ -3,13 +3,15 @@
 	if($_SESSION['admin']!=1){
 		die('请<a href="./">登录</a>');
 	}
+	date_default_timezone_set('PRC');
 	if(isset($_POST['sub'])){
 		$re = array(
 			'update' => $_POST['updateStartTime'].' '.$_POST['updateEndTime'],
 			'refresh' => $_POST['refreshStartTime'].' '.$_POST['refreshEndTime'],
 			'zhidao' => $_POST['zhidaoStartTime'].' '.$_POST['zhidaoEndTime'],
 			'wenku' => $_POST['wenkuStartTime'].' '.$_POST['wenkuEndTime'],
-			'tieba' => $_POST['tiebaStartTime'].' '.$_POST['tiebaEndTime']
+			'zhidaoLuck' => $_POST['zhidaoLuckStartTime'].' '.$_POST['zhidaoLuckEndTime'],
+			'tieba' => $_POST['tiebaStartTime'].' '.$_POST['tiebaEndTime'],
 		);
 		file_put_contents('../cronlog.php', json_encode($re));
 	}
@@ -70,11 +72,19 @@
 					</div>
 					<br>
 					<div class="input-group">
+						<span class="input-group-addon" style="width:120px">知道抽奖</span>
+						<input type="text" class="form-control" name="zhidaoLuckStartTime" value="<?php echo $result['zhidaoLuck'][0] ?>">
+						<span class="input-group-addon">-</span>
+						<input type="text" class="form-control" name="zhidaoLuckEndTime" value="<?php echo $result['zhidaoLuck'][1] ?>">
+					</div>
+					<br>
+					<div class="input-group">
 						<span class="input-group-addon" style="width:120px">贴吧签到</span>
 						<input type="text" class="form-control" name="tiebaStartTime" value="<?php echo $result['tieba'][0] ?>">
 						<span class="input-group-addon">-</span>
 						<input type="text" class="form-control" name="tiebaEndTime" value="<?php echo $result['tieba'][1] ?>">
 					</div>
+
 					<br>
 					<button type="submit" class="btn btn-primary btn-block" name="sub">更改</button>
 				</form>
@@ -82,7 +92,7 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;<a href="./">用户管理</a>
 		</div>
 	</body>
-	<footer>© 2015 <a href="http://www.zzliux.tk" target="_blank">zzliux</a></footer>
+	<footer>© 2015 <a href="http://www.zzliux.com" target="_blank">zzliux</a></footer>
 	<!-- 感谢星弦雪大神提供的BaiduUtil和登录模板 -->
 </html>
 <?php
