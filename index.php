@@ -57,8 +57,10 @@
 				$sql="select * from info where un='{$name}'";
 				$result=$DB->query($sql);
 				$row=$result->fetch_assoc();
+				$fff = true;
 				if(empty($row['uid'])){
-					die('本站木有这个用户哟~<a href="./">返回</a>~');
+					$fff = false;
+					echo '<font color="red">本站木有这个用户哟~~</font>&nbsp;&nbsp;↖点击提交BDUSS加入本签到站';
 				}
 				setcookie('user',$name,time()+60*60*24*30);
 				session_start();
@@ -69,28 +71,30 @@
 				$result=$DB->query($sql);
 				$i=1;
 				$y=0;
-				while($row=$result->fetch_assoc()){
-					$re[$i]['tieba']=$row['tieba'];
-					switch($row['is_sign']){
-						case 0: $re[$i]['is_sign']='<font color="#FFA500">Queueing</font>'; break;
-						case 1: $re[$i]['is_sign']='<font color="#008000">Yes</font>'; $y++; break;
-						case 2: $re[$i]['is_sign']='<font color="#008000">Signed</font>'; $y++; break;
-						case 3: $re[$i]['is_sign']='<font color="#FF0000">Unknown</font>'; break;
-						case 4: $re[$i]['is_sign']='<font color="#FF0000">Too fast</font>'; break;
+				if($fff){
+					while($row=$result->fetch_assoc()){
+						$re[$i]['tieba']=$row['tieba'];
+						switch($row['is_sign']){
+							case 0: $re[$i]['is_sign']='<font color="#FFA500">Queueing</font>'; break;
+							case 1: $re[$i]['is_sign']='<font color="#008000">Yes</font>'; $y++; break;
+							case 2: $re[$i]['is_sign']='<font color="#008000">Signed</font>'; $y++; break;
+							case 3: $re[$i]['is_sign']='<font color="#FF0000">Unknown</font>'; break;
+							case 4: $re[$i]['is_sign']='<font color="#FF0000">Too fast</font>'; break;
+						}
+						$i++;
 					}
-					$i++;
 				}
-			}
-			$i--;
-			if(!empty($name)){
-				echo "<pre style=\"max-width:160px\">成功数/总数:<font color=\"#008000\"><b>{$y}</b></font>/<font color=\"#FFA500\"><b>{$i}</b></font></pre>";
-				echo "<form method=\"post\"><button class=\"btn btn-danger\" name=\"resetTieba\" value=\"{$name}\">重置贴吧</button></from>";
-				echo '<table class="table" style="max-width:330px;margin:0px auto;">';
-				echo '<thead><th>#</th><th>贴吧</th><th>status</th>';
-				for($i=1;isset($re[$i]);$i++){
-					echo '<thead><th>'.$i.'</th><th>'.$re[$i]['tieba'].'</th><th>'.$re[$i]['is_sign'].'</th></thead>';
+				$i--;
+				if($fff){
+					echo "<pre style=\"max-width:160px\">成功数/总数:<font color=\"#008000\"><b>{$y}</b></font>/<font color=\"#FFA500\"><b>{$i}</b></font></pre>";
+					echo "<form method=\"post\"><button class=\"btn btn-danger\" name=\"resetTieba\" value=\"{$name}\">重置贴吧</button></from>";
+					echo '<table class="table" style="max-width:330px;margin:0px auto;">';
+					echo '<thead><th>#</th><th>贴吧</th><th>status</th>';
+					for($i=1;isset($re[$i]);$i++){
+						echo '<thead><th>'.$i.'</th><th>'.$re[$i]['tieba'].'</th><th>'.$re[$i]['is_sign'].'</th></thead>';
+					}
+					echo '</table>';
 				}
-				echo '</table>';
 			}
 			$DB->close();
 		?>
