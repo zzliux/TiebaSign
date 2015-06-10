@@ -1,4 +1,3 @@
-<meta charset="utf-8">
 <?php
 	require_once('install/config.php');
 	$con = new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
@@ -7,12 +6,16 @@
 	}
 	$bduss=$_POST['bduss'];
 	require_once('BaiduUtil.php');
-	$utl = new BaiduUtil($bduss);
-	$con->query('SET NAMES utf8');
-	$utl->un();
-	if(!empty($utl->lastFetch['user']['id'])){
+	try{
+		$utl = new BaiduUtil($bduss);
+		$utl->un();
 		$id=$utl->lastFetch['user']['id'];
 		$name=$utl->lastFetch['user']['name'];
+	}catch(Exception $e){
+		echo $e->getMessage();
+	}
+	$con->query('SET NAMES utf8');
+	if(!empty($utl->lastFetch['user']['id'])){
 		$tieba=$utl->fetchWebLikedForumList();
 		$sql="SELECT * FROM `info` where uid = {$id}";
 		$result=$con->query($sql);
@@ -29,6 +32,6 @@
 			$sql="INSERT INTO `tieba` (`uid`, `tieba`, `is_sign`) VALUES ('{$id}','{$tieba[data][$i][forum_name]}', '0');";
 			$con->query($sql);
 		}
-		die('用户'.$utl->un().'成功添加<a href="./?un='.$utl->un().'">返回</a');
+		echo '用户<font color="red">'.$utl->un().'</font>成功添加<a href="./?un='.$utl->un();
 	}
 ?>
