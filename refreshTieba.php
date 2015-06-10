@@ -1,4 +1,3 @@
-<meta charset="utf-8">
 <?php
 	if(isset($_POST['un'])||isset($_GET['un'])){
 		require_once('install/config.php');
@@ -15,7 +14,7 @@
 		$sql = "select * from info where un='{$un}'";
 		$result = $DB->query($sql);
 		if(!($row = $result->fetch_assoc())){
-			die('本站木有这个用户哟~~<a href="refresh.php">返回</a>');
+			die('本站木有这个用户哟~~');
 		}
 		$bduss = $row['bduss'];
 		$uid = $row['uid'];
@@ -41,9 +40,9 @@
 				}
 			}
 			unset($utl);
-			die('更新成功,用户'.$name.'新增'.$count.'个贴吧<br><a href="./?un='.$name.'">签到查询</a>');
+			die('更新成功,用户<font color="red">'.$name.'</font>新增<font color="red">'.$count.'</font>个贴吧');
 		}else{
-			die('这个用户的BDUSS已经过期了哟~~<a href="./">提交BDUSS</a>');
+			die('这个用户的BDUSS已经过期了哟~~');
 		}
 	}else{
 		die('请输入用户名');
