@@ -6,7 +6,7 @@
 	}
 	$DB->query('SET NAMES utf8');
 	if(isset($_COOKIE['user'])){
-		$name=$_COOKIE['user'];
+		$name=$DB->real_escape_string($_GET['un']);
 	}
 	if(isset($_GET['un'])){
 		$name=$DB->real_escape_string($_GET['un']);
@@ -49,9 +49,17 @@
 							<input type="text" class="form-control" id="input_user_name" name="un" placeholder="仅可以使用百度ID" value="<?php echo $_GET[un] ?>">
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary btn-block">查询</button>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-9">
+							<button type="submit" class="btn btn-primary btn-block">查询</button>
+						</div>
+					</div>
 				</form>
-				<br><a href="./refresh.php?un=<?php echo $name ?>">更新贴吧</a>&nbsp;&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a><br>
+				<div class="form-group">
+					<div class="col-sm-offset-3 col-sm-9">
+						<a href="./refresh.php?un=<?php echo $name ?>">更新贴吧</a>&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a><br>
+					</div>
+				</div>
 		<?php
 			if(!empty($name)){
 				$sql="select * from info where un='{$name}'";
