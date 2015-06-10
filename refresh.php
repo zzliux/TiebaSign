@@ -14,25 +14,47 @@
 			margin: 0 auto;
 		}
 		</style>
+		<script>
+		function subName(){
+			document.getElementById('info').innerHTML='更新中...请稍候....';
+			var xmlhttp;
+			var href = location.href.replace(new RegExp('refresh.php((\.+)?)',''),'');
+			xmlhttp=new XMLHttpRequest();
+			xmlhttp.open("POST",href+'/refreshTieba.php',true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send('un='+document.getElementById('un').value);
+			xmlhttp.onreadystatechange=function(){
+				if(xmlhttp.readyState==4 && xmlhttp.status==200){
+					document.getElementById('info').innerHTML=xmlhttp.responseText;
+				}
+			}
+		}
+		</script>
 	</head>
 	<body>
 		<div class="panel panel-primary form-panel">
 			<div class="panel-heading">更新贴吧</div>
 			<div class="panel-body">
-				<form class="form-horizontal" role="form" method="post" action="refreshTieba.php">
+				<div class="form-horizontal" role="form" method="post" action="refreshTieba.php">
 					<div class="form-group">
 						<label for="input_user_name" class="col-sm-3 control-label">用户名</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="input_user_name" name="un" placeholder="仅可使用百度ID" value="<?php echo $_GET[un] ?>">
+							<input id="un" type="text" class="form-control" id="input_user_name" placeholder="仅可使用百度ID" value="<?php echo $_GET[un] ?>">
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary btn-block">提交</button>
-				</form>
-				<br>
-				<a href="./">签到查询</a>
+					<div class="form-group">
+						<div class="col-sm-offset-3 col-sm-9">
+							<button type="submit" class="btn btn-primary btn-block" onclick="subName()">提交</button>
+						</div>
+					</div>
+				</div>
+				<div id="info"></div>
+				<div class="col-sm-offset-3 col-sm-9">
+					<a href="./">签到查询</a>
+				</div>
 			</div>
 		</div>
 	</body>
-	<footer>© 2015 <a href="http://www.zzliux.tk" target="_blank">zzliux</a></footer>
+	<footer>© 2015 <a href="http://www.zzliux.com" target="_blank">zzliux</a></footer>
 	<!-- 感谢星弦雪大神提供的BaiduUtil和登录模板 -->
 </html>
