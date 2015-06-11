@@ -43,6 +43,34 @@
 			margin-right:0px auto;
 		}
 		</style>
+		<script>
+		function operate(name){
+			var out = '<div class="form-horizontal" role="form" method="post"><span><font color="red">'+name+'</font>操作<div class="btn-group"><button type="submit" name="query" value="'+name+'" class="btn btn-success"><a href="../?un='+name+'"><font color="white">签到情况</font></a></button><input type="hidden" id="opn" value="'+name+'"><button type="submit" name="refresh" value="'+name+'" class="btn btn-primary" onclick="refresh()">刷新贴吧</button><button type="submit" name="deun" value="'+name+'" class="btn btn-danger" onclick="deleteu()">删除</button></div></div>';
+			document.getElementById('info').innerHTML=out;
+		}
+		function refresh(){
+			var opn = document.getElementById('opn').value;
+			document.getElementById('info').innerHTML='更新中...请稍后...';
+			var xmlhttp = new XMLHttpRequest();
+			var url = location.href.replace(new RegExp('/admin(/index.php)?',''),'');
+			xmlhttp.open('post',url+'/refreshTieba.php',true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send('un='+opn);
+			xmlhttp.onreadystatechange=function(){
+				if(xmlhttp.readyState==4 && xmlhttp.status==200){
+					document.getElementById('info').innerHTML=xmlhttp.responseText;
+				}
+			}
+		}
+		function deleteu(){
+			var opn = document.getElementById('opn').value;
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open('post',location.href,true);
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send('deun='+opn);
+			location.reload(true);
+		}
+		</script>
 	</head>
 	<body>
 	<?php 
@@ -105,18 +133,7 @@ aaa;
 				<div class="panel-heading">用户管理</div>
 				<div class="panel-body"><table class="table" s
 				tyle="max-width:500px;margin:0px auto;"><thead><th>#</th><th>ID</th><th>成功数('.$res['signed'].')</th><th>失败数('.$res['failed'].')</th><th>队列数('.$res['queueing'].')</th><th>总数('.$res['total'].')</th></thead>';
-			if(isset($_GET['deun'])){
-				echo "
-					<form class=\"form-horizontal\" role=\"form\" method=\"post\">
-						<span><font color=\"red\">{$_GET[deun]}</font>操作
-						<div class=\"btn-group\">
-							<button type=\"submit\" name=\"query\" value=\"{$_GET[deun]}\" class=\"btn btn-success\">签到情况</button>
-							<button type=\"submit\" name=\"refresh\" value=\"{$_GET[deun]}\" class=\"btn btn-primary\">刷新贴吧</button>
-							<button type=\"submit\" name=\"deun\" value=\"{$_GET[deun]}\" class=\"btn btn-danger\">删除</button>
-						</div>
-					</form>
-";
-			}
+			echo '<div id="info"></div>';
 			if(isset($_GET['query']) && $_GET['query']=='refreshAllTieba'){
 				$sql = 'UPDATE tieba SET is_sign = 0';
 				$DB->query($sql);
@@ -136,7 +153,7 @@ aaa;
 						$f++;
 					}
 				}
-				echo "<tr><th>{$t}</th><th><a href=\"?deun={$row[un]}\">{$row[un]}</a></th><th>{$y}</th><th>{$f}</th><th>{$q}</th><th>{$i}</th></tr>";
+				echo "<tr><th>{$t}</th><th><a onclick=\"operate('{$row[un]}')\">{$row[un]}</a></th><th>{$y}</th><th>{$f}</th><th>{$q}</th><th>{$i}</th></tr>";
 			}
 			echo '</table>';
 			echo <<<aaa
