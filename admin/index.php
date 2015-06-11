@@ -45,7 +45,8 @@
 		</style>
 		<script>
 		function operate(name){
-			var out = '<div class="form-horizontal" role="form" method="post"><span><font color="red">'+name+'</font>操作<div class="btn-group"><button type="submit" name="query" value="'+name+'" class="btn btn-success"><a href="../?un='+name+'"><font color="white">签到情况</font></a></button><input type="hidden" id="opn" value="'+name+'"><button type="submit" name="refresh" value="'+name+'" class="btn btn-primary" onclick="refresh()">刷新贴吧</button><button type="submit" name="deun" value="'+name+'" class="btn btn-danger" onclick="deleteu()">删除</button></div></div>';
+			javascript:scroll(0,0);
+			var out = '<pre><div class="form-horizontal" role="form" method="post"><span><font color="red">'+name+'</font>操作<div class="btn-group"><button type="submit" name="query" value="'+name+'" class="btn btn-success"><a href="../?un='+name+'"><font color="white">签到情况</font></a></button><input type="hidden" id="opn" value="'+name+'"><button type="submit" name="refresh" value="'+name+'" class="btn btn-primary" onclick="refresh()">刷新贴吧</button><button type="submit" name="deun" value="'+name+'" class="btn btn-danger" onclick="deleteu(false)">删除</button></div></div></pre>';
 			document.getElementById('info').innerHTML=out;
 		}
 		function refresh(){
@@ -62,13 +63,18 @@
 				}
 			}
 		}
-		function deleteu(){
+		function deleteu(flag){
 			var opn = document.getElementById('opn').value;
-			var xmlhttp = new XMLHttpRequest();
-			xmlhttp.open('post',location.href,true);
-			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-			xmlhttp.send('deun='+opn);
-			location.reload(true);
+			if(flag){
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.open('post',location.href,true);
+				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				xmlhttp.send('deun='+opn);
+				location.reload(true);
+			}else{
+				var out = '<input type="hidden" id="opn" value="'+opn+'"><pre>用户<font color="red">'+opn+'</font>确认删除?<br><div class="btn-group"><button class="btn btn-danger" onclick="deleteu(true)">确认</button><button class="btn btn-primary" onclick="operate(\''+opn+'\')">取消</button></div></pre>';
+				document.getElementById('info').innerHTML=out;
+			}
 		}
 		</script>
 	</head>
