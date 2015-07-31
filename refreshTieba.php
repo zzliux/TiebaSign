@@ -8,7 +8,7 @@
 		if(isset($_POST['un'])){
 			$un = $DB->real_escape_string($_POST['un']);
 		}else{
-			$un = $_GET['un'];
+			$un = $DB->real_escape_string($_GET['un']);
 		}
 		$DB->query('SET NAMES utf8');
 		$sql = "select * from info where un='{$un}'";
