@@ -17,6 +17,7 @@
 		<script>
 		function subName(){
 			document.getElementById('info').innerHTML='更新中...请稍候....';
+			document.getElementById('btn').disabled=true;
 			var xmlhttp;
 			var href = location.href.replace(new RegExp('refresh.php((\.+)?)',''),'');
 			xmlhttp=new XMLHttpRequest();
@@ -26,6 +27,7 @@
 			xmlhttp.onreadystatechange=function(){
 				if(xmlhttp.readyState==4 && xmlhttp.status==200){
 					document.getElementById('info').innerHTML=xmlhttp.responseText;
+					document.getElementById('btn').disabled=false;
 				}
 			}
 		}
@@ -44,7 +46,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-offset-3 col-sm-9">
-							<button type="submit" class="btn btn-primary btn-block" onclick="subName()">提交</button>
+							<button type="submit" id="btn" class="btn btn-primary btn-block" onclick="subName()">提交</button>
 						</div>
 					</div>
 				</div>
