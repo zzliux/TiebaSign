@@ -5,6 +5,8 @@
 		die($DB->connect_error);
 	}
 	$DB->query('SET NAMES utf8');
+	$userTotolNumObj = $DB->query('select count(uid) as totol from info');
+	$userTotolNum = $userTotolNumObj->fetch_assoc()['totol'];
 	if(isset($_COOKIE['user'])){
 		$name=$DB->real_escape_string($_GET['un']);
 	}
@@ -36,6 +38,9 @@
 			max-width: 350px;
 			margin: 0 auto;
 		}
+		.totolNum{
+			margin-bottom: 10px;
+		}
 		</style>
 	</head>
 	<body>
@@ -55,9 +60,12 @@
 						</div>
 					</div>
 				</form>
+				<div class="totolNum col-sm-offset-3 col-sm-9">
+					总计有<?php echo $userTotolNum ?>名用户加入本签到站
+				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-3 col-sm-9">
-						<a href="./refresh.php?un=<?php echo $name ?>">更新贴吧</a>&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a><br>
+						<a href="./refresh.php?un=<?php echo $name ?>">更新贴吧</a>&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a>
 					</div>
 				</div>
 		<?php
@@ -68,7 +76,7 @@
 				$fff = true;
 				if(empty($row['uid'])){
 					$fff = false;
-					echo '<font color="red">本站木有这个用户哟~~</font>&nbsp;&nbsp;↖点击提交BDUSS加入本签到站';
+					echo '<font color="red">本站木有这个用户哟~~</font>&nbsp;&nbsp;点击提交BDUSS加入本签到站';
 				}
 				setcookie('user',$name,time()+60*60*24*30);
 				session_start();
