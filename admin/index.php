@@ -42,6 +42,10 @@
 			width: 100px;
 			margin-right:0px auto;
 		}
+		#id {
+			word-wrap:break-word;
+			max-width:130px;
+		}
 		</style>
 		<script>
 		function operate(name){
@@ -159,7 +163,7 @@ aaa;
 						$f++;
 					}
 				}
-				echo "<tr><th>{$t}</th><th><a onclick=\"operate('{$row[un]}')\">{$row[un]}</a></th><th>{$y}</th><th>{$f}</th><th>{$q}</th><th>{$i}</th></tr>";
+				echo "<tr><td>{$t}</td><td id=\"id\"><a onclick=\"operate('{$row[un]}')\">{$row[un]}</a></td><td>{$y}</td><td>{$f}</td><td>{$q}</td><td>{$i}</td></tr>";
 			}
 			echo '</table>';
 			echo <<<aaa
