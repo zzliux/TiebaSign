@@ -44,7 +44,7 @@
 		}
 		#id {
 			word-wrap:break-word;
-			max-width:130px;
+			max-width:100px;
 		}
 		</style>
 		<script>
