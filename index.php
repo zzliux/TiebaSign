@@ -28,7 +28,8 @@
 	<head>
 		<title>贴吧签到托管-签到情况查询</title>
 		<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 		<style>
 		body {
 			padding-top: 10px;
@@ -42,12 +43,20 @@
 			margin-bottom: 10px;
 		}
 		</style>
+		<script>
+			function send(){
+				var btn = document.getElementsByTagName("button")[0];
+				btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+				btn.disabled = true;
+				return true;
+			}
+		</script>
 	</head>
 	<body>
 		<div class="panel panel-primary form-panel">
 			<div class="panel-heading">签到查询</div>
 			<div class="panel-body">
-				<form class="form-horizontal" role="form" method="get">
+				<form class="form-horizontal" role="form" method="get" onsubmit="return send()">
 					<div class="form-group">
 						<label for="input_user_name" class="col-sm-3 control-label">用户名</label>
 						<div class="col-sm-9">
@@ -114,6 +123,15 @@
 			}
 			$DB->close();
 		?>
+		<?php if(!isset($_GET['un'])){ ?>
+				<div class="col-sm-offset-3 col-sm-9" style="margin-top:20px">
+					<p>1、本站会定期清理bduss过期的用户,请勤奋提交bduss</p>
+					<p>2、贴吧签到保证稳定,知道和文库的签到不保证,因为我不玩.....</p>
+					<p>3、本站的自动更新贴吧的功能不太稳定,最好来手动更新贴吧</p>
+					<p>4、有什么疑问换迎来 <a href="http://tieba.baidu.com/f?kw=liux" target="_blank">liux</a>吧 发贴并 <a href="http://tieba.baidu.com/home/main?un=%E2%94%9B%E5%B0%8F%E9%BB%91&ie=utf-8&fr=frs" target="_blank">@┛小黑</a> 来提问</p>
+					<p>5、想到什么再写吧</p>
+				</div>
+		<?php } ?>
 			</div>
 		</div>
 	</body>

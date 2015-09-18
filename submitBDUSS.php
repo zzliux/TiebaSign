@@ -3,7 +3,8 @@
 	<head>
 		<title>贴吧签到托管-提交BDUSS</title>
 		<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link href="//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 		<style>
 		body {
 			padding-top: 80px;
@@ -16,7 +17,7 @@
 		</style>
 		<script>
 		function subBDUSS(){
-			document.getElementById('info').innerHTML='更新中...请稍候....';
+			document.getElementById('info').innerHTML='<i class="fa fa-spinner fa-spin"></i>更新中...请稍候....';
 			document.getElementById('btn').disabled=true;
 			var xmlhttp;
 			var href = location.href.replace('submitBDUSS.php','');
@@ -49,7 +50,7 @@
 							<button type="submit" id="btn" class="btn btn-primary btn-block" onclick="subBDUSS()">提交</button>
 						</div>
 					</div>
-					<div id='info'></div>
+					<div id='info' class="col-sm-offset-3 col-sm-9"></div>
 				</div>
 				<div class="col-sm-offset-3 col-sm-9">
 					<a href="./">签到查询</a>&nbsp;&nbsp;<a href="refresh.php">更新贴吧</a><br><a href="BDUSSbyLogin.php">自动获取BDUSS</a>
