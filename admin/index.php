@@ -56,7 +56,7 @@
 		}
 		function refresh(){
 			var opn = document.getElementById('opn').value;
-			document.getElementById('info').innerHTML='更新中...请稍后...';
+			document.getElementById('info').innerHTML='<i class="fa fa-spinner fa-spin"></i>更新中...请稍后...';
 			var xmlhttp = new XMLHttpRequest();
 			var url = location.href.replace(new RegExp('/admin(/index.php)?',''),'');
 			xmlhttp.open('post',url+'/refreshTieba.php',true);
