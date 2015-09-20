@@ -119,6 +119,6 @@
 	<pre><font color="red">1.本站不会窃取任何有关用户密码的信息,请放心使用
 2.开启登录保护的用户请手动添加BDUSS(可能会有伪开启的状态,百度官网显示未开启,但是还是无法提交的话就开启再关闭)</font></pre>
 </body>
-<footer>© 2015 <a href="http://www.zzliux.tk" target="_blank">zzliux</a></footer>
+<footer>© 2015 <a href="http://www.zzliux.tk" target="_blank">zzliux</a><?php echo file_get_contents("tongji.txt") ?></footer>
 <!-- 感谢星弦雪大神提供的BaiduUtil和登录模板 -->
 </html>
