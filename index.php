@@ -123,15 +123,11 @@
 			}
 			$DB->close();
 		?>
-		<?php if(!isset($_GET['un'])){ ?>
 				<div class="col-sm-offset-3 col-sm-9" style="margin-top:20px">
-					<p>1、本站会定期清理bduss过期的用户,请勤奋提交bduss</p>
-					<p>2、贴吧签到保证稳定,知道和文库的签到不保证,因为我不玩.....</p>
-					<p>3、本站的自动更新贴吧的功能不太稳定,最好来手动更新贴吧</p>
-					<p>4、有什么疑问换迎来 <a href="http://tieba.baidu.com/f?kw=liux" target="_blank">liux</a>吧 发贴并 <a href="http://tieba.baidu.com/home/main?un=%E2%94%9B%E5%B0%8F%E9%BB%91&ie=utf-8&fr=frs" target="_blank">@┛小黑</a> 来提问</p>
-					<p>5、想到什么再写吧</p>
+				<?php
+					echo file_get_contents('admin/board.txt');
+				?>
 				</div>
-		<?php } ?>
 			</div>
 		</div>
 	</body>

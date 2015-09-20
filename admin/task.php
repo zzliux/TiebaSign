@@ -3,7 +3,7 @@
 	if($_SESSION['admin']!=1){
 		die('请<a href="./">登录</a>');
 	}
-	date_default_timezone_set('PRC');
+	date_default_timezone_set('Asia/Shanghai');
 	if(isset($_POST['sub'])){
 		$re = array(
 			'update' => $_POST['updateStartTime'].' '.$_POST['updateEndTime'],
@@ -25,7 +25,7 @@
 	<head>
 		<title>贴吧签到托管-计划任务</title>
 		<meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		<style>
 		body {
 			padding-top: 10px;

@@ -96,7 +96,7 @@
 							<input type="password" class="form-control" id="input_password" name="password" placeholder="密码" value="<?php if(isset($password)) echo $password; ?>">
 						</div>
 					</div>
-						<?php if(isset($need_vcode)){ ?>
+					<?php if(isset($need_vcode)){ ?>
 					<div class="form-group">
 						<label for="input_vcode" class="col-sm-3 control-label">验证码</label>
 						<div class="col-sm-4">
