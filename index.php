@@ -126,6 +126,7 @@
 		?>
 				<div class="col-sm-offset-3 col-sm-9" style="margin-top:20px">
 				<?php
+				if(!$_GET['un'])
 					echo file_get_contents('admin/board.txt');
 				?>
 				</div>
