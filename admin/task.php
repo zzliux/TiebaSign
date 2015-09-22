@@ -35,6 +35,9 @@
 			max-width: 380px;
 			margin: 0 auto;
 		}
+		.input-group{
+			margin-bottom:10px;
+		}
 		</style>
 	</head>
 	<body>
@@ -49,43 +52,36 @@
 						<span class="input-group-addon">-</span>
 						<input type="text" class="form-control" name="updateEndTime" value="<?php echo $result['update'][1] ?>">
 					</div>
-					<br>
 					<div class="input-group">
 						<span class="input-group-addon" style="width:120px">更新贴吧</span>
 						<input type="text" class="form-control" name="refreshStartTime" value="<?php echo $result['refresh'][0] ?>">
 						<span class="input-group-addon">-</span>
 						<input type="text" class="form-control" name="refreshEndTime" value="<?php echo $result['refresh'][1] ?>">
 					</div>
-					<br>
 					<div class="input-group">
 						<span class="input-group-addon" style="width:120px">知道签到</span>
 						<input type="text" class="form-control" name="zhidaoStartTime" value="<?php echo $result['zhidao'][0] ?>">
 						<span class="input-group-addon">-</span>
 						<input type="text" class="form-control" name="zhidaoEndTime" value="<?php echo $result['zhidao'][1] ?>">
 					</div>
-					<br>
 					<div class="input-group">
 						<span class="input-group-addon" style="width:120px">文库签到</span>
 						<input type="text" class="form-control" name="wenkuStartTime" value="<?php echo $result['wenku'][0] ?>">
 						<span class="input-group-addon">-</span>
 						<input type="text" class="form-control" name="wenkuEndTime" value="<?php echo $result['wenku'][1] ?>">
 					</div>
-					<br>
 					<div class="input-group">
 						<span class="input-group-addon" style="width:120px">知道抽奖</span>
 						<input type="text" class="form-control" name="zhidaoLuckStartTime" value="<?php echo $result['zhidaoLuck'][0] ?>">
 						<span class="input-group-addon">-</span>
 						<input type="text" class="form-control" name="zhidaoLuckEndTime" value="<?php echo $result['zhidaoLuck'][1] ?>">
 					</div>
-					<br>
 					<div class="input-group">
 						<span class="input-group-addon" style="width:120px">贴吧签到</span>
 						<input type="text" class="form-control" name="tiebaStartTime" value="<?php echo $result['tieba'][0] ?>">
 						<span class="input-group-addon">-</span>
 						<input type="text" class="form-control" name="tiebaEndTime" value="<?php echo $result['tieba'][1] ?>">
 					</div>
-
-					<br>
 					<button type="submit" class="btn btn-primary btn-block" name="sub">更改</button>
 				</form>
 			</div>

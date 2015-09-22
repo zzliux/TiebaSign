@@ -33,6 +33,8 @@
 		<style>
 		body {
 			padding-top: 10px;
+			padding-left:10px;
+			padding-right:10px;
 			background-color: #eee;
 		}
 		footer,.form-panel{
