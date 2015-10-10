@@ -17,7 +17,7 @@
 		case 'refresh': refresh(); break;
 		case 'tieba': signForTieba(20); break;
 		case 'zhidao': signForZhidao(); break;
-		case 'wenku': signForWenku($t[1]); break;
+		case 'wenku': signForWenku(); break;
 		case 'update': update(); break;
 		case 'zhidaoLuck': zhidaoLuck(); break;
 		default: echo 'over'; break;
@@ -69,25 +69,27 @@
 		$DB->query($sql);
 		$sql = 'update info set is_refresh = 0';
 		$DB->query($sql);
+		$sql = 'update info set is_sign_zhidao = 0';
+		$DB->query($sql);
+		$sql = 'update info set is_sign_wenku = 0';
+		$DB->query($sql);
 		$DB->close();
 	}
 
-	function signForWenku($t){
+	function signForWenku(){
 		$DB=new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
 		if($DB->connect_errno){
 			die($DB->connect_error);
 		}
 		$DB->query("SET NAMES utf8");
-		if($t%2==0){
-			$sql = 'select * from info order by uid';
-		}else{
-			$sql = 'select * from info order by uid desc';
-		}
+		$sql = 'select * from info where `is_sign_wenku` = 0';
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
 			echo '<br>'.$row['un'];
 			$utl = new BaiduUtil($row['bduss']);
 			$utl->signForWenku();
+			$sql="update info set is_sign_wenku = 1 where uid={$row['uid']}";
+			$DB->query($sql);
 		}
 		$DB->close();
 	}
@@ -98,11 +100,13 @@
 			die($DB->connect_error);
 		}
 		$DB->query("SET NAMES utf8");
-		$sql = 'select * from info order by uid';
+		$sql = 'select * from info where `is_sign_zhidao` = 0';
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
 			$utl = new BaiduUtil($row['bduss']);
 			$utl->signForZhidao();
+			$sql="update info set is_sign_zhidao = 1 where uid={$row['uid']}";
+			$DB->query($sql);
 		}
 		$DB->close();
 	}
@@ -167,7 +171,6 @@
 			$bduss=$row_['bduss'];
 			$utl=new BaiduUtil($bduss);
 			$re=$utl->sign($row['tieba']);
-			var_dump($re);
 			switch($re['status']){
 				case '0': $st=1; break;
 				case '160002': $st=2; break;
@@ -181,7 +184,6 @@
 			$sql="update tieba set is_sign = {$st} where uid={$row[uid]} and tieba = '{$row[tieba]}'";
 			$DB->query($sql);
 			unset($utl);
-	//		sleep(1);
 		}
 		$DB->close();
 		return 'ok';

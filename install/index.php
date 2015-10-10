@@ -27,10 +27,13 @@
 		}
 		
 		$sql = "CREATE TABLE IF NOT EXISTS `info` (
-  `uid` int(11) NULL PRIMARY KEY,
+  `uid` int(11) NOT NULL,
   `un` text,
   `bduss` text,
-  `is_refresh` int(1) DEFAULT NULL
+  `is_refresh` tinyint(1) NOT NULL DEFAULT '0',
+  `is_sign_zhidao` tinyint(1) NOT NULL DEFAULT '0',
+  `is_sign_wenku` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ";
 		$DB->query($sql);
