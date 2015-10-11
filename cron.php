@@ -7,7 +7,7 @@
 	$t = explode(':',$time);
 
 	if($t[1]>=0&&$t[1]<=2 && $t[0]%4==0){
-		update(false,true,true,true);
+		update(false,true,false,false);
 		die();
 	}
 
