@@ -7,7 +7,7 @@
 	$t = explode(':',$time);
 
 	if($t[1]>=0&&$t[1]<=2 && $t[0]%4==0){
-		update();
+		update(false,true,true,true);
 		die();
 	}
 
@@ -29,17 +29,17 @@
 			die($DB->connect_error);
 		}
 		$DB->query("SET NAMES utf8");
-		while($n--){
-			$sql = 'SELECT * FROM info WHERE is_refresh = 0 LIMIT 1';
-			$result = $DB->query($sql);
-			$row = $result->fetch_assoc();
+		$sql = 'SELECT * FROM info WHERE is_refresh = 0 LIMIT '.$n;
+		$result_ = $DB->query($sql);
+		while($row = $result_->fetch_assoc()){
 			$bduss = $row['bduss'];
 			$uid = $row['uid'];
 			$name = $row['un'];
 			$utl = new BaiduUtil($bduss);
-			$utl->un();
-			$result = $utl->fetchWebLikedForumList();
-			if(isset($utl->lastFetch['user']['id'])){
+			try{
+				$utl->un();
+				$result = $utl->fetchWebLikedForumList();
+				$utl->lastFetch['user']['id'];
 				$DB->query("update info set is_refresh = 1 where uid = {$uid}");
 				$count = 0;
 				for($i=0;isset($result['data'][$i]);$i++){
@@ -52,6 +52,8 @@
 						$count++;
 					}
 				}
+			}catch(Exception $e){
+				var_dump($e);
 			}
 			unset($utl);
 			echo '更新成功,用户'.$name.'新增'.$count.'个贴吧'.'<br>';
@@ -60,19 +62,27 @@
 		return '';
 	}
 
-	function update(){
+	function update($refresh=true, $tieba=true, $zhidao=true, $wenku=true){
 		$DB=new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
 		if($DB->connect_errno){
 			die($DB->connect_error);
 		}
-		$sql = 'update tieba set is_sign = 0';
-		$DB->query($sql);
-		$sql = 'update info set is_refresh = 0';
-		$DB->query($sql);
-		$sql = 'update info set is_sign_zhidao = 0';
-		$DB->query($sql);
-		$sql = 'update info set is_sign_wenku = 0';
-		$DB->query($sql);
+		if($tieba){
+			$sql = 'update tieba set is_sign = 0';
+			$DB->query($sql);
+		}
+		if($refresh){
+			$sql = 'update info set is_refresh = 0';
+			$DB->query($sql);
+		}
+		if($zhidao){
+			$sql = 'update info set is_sign_zhidao = 0';
+			$DB->query($sql);
+		}
+		if($wenku){
+			$sql = 'update info set is_sign_wenku = 0';
+			$DB->query($sql);
+		}
 		$DB->close();
 	}
 
