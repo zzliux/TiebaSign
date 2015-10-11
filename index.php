@@ -44,7 +44,12 @@
 		.totolNum{
 			margin-bottom: 10px;
 		}
-
+		.fa-check{
+			color:#008000;
+		}
+		.fa-times{
+			color:#A00000;
+		}
 		</style>
 		<script>
 			function send(){
@@ -90,6 +95,8 @@
 					$fff = false;
 					echo '<font color="red">本站木有这个用户哟~~</font>&nbsp;&nbsp;点击提交BDUSS加入本签到站';
 				}
+				$is_sign_zhidao = $row['is_sign_zhidao']?'fa fa-check':'fa fa-times';
+				$is_sign_wenku = $row['is_sign_wenku']?'fa fa-check':'fa fa-times';
 				setcookie('user',$name,time()+60*60*24*30);
 				session_start();
 				if($_SESSION['admin']==1){
@@ -114,7 +121,7 @@
 				}
 				$i--;
 				if($fff){
-					echo "<pre style=\"max-width:160px\">成功数/总数:<font color=\"#008000\"><b>{$y}</b></font>/<font color=\"#FFA500\"><b>{$i}</b></font></pre>";
+					echo "<pre style=\"max-width:160px\">贴吧:<font color=\"#008000\"><b>{$y}</b></font>/<font color=\"#FFA500\"><b>{$i}</b></font><br>知道:<i class=\"".($is_sign_zhidao)."\"></i><br>文库:<i class=\"".($is_sign_wenku)."\"></i></pre>";
 					echo "<form method=\"post\"><button class=\"btn btn-danger\" name=\"resetTieba\" value=\"{$name}\">重置贴吧</button></from>";
 					echo '<table class="table" style="max-width:330px;margin:0px auto;">';
 					echo '<thead><th>#</th><th>贴吧</th><th>status</th>';
