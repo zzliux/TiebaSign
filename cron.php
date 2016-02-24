@@ -1,27 +1,28 @@
 <?php
 	header("Content-type: text/html; charset=utf-8");
-	date_default_timezone_set('PRC');//设置北京时间
+	date_default_timezone_set('Asia/Shanghai');//设置北京时间
 	require_once('install/config.php');
 	require_once('BaiduUtil.php');
 	$time = date('H:i',time());
 	$t = explode(':',$time);
-
-	if($t[1]>=0&&$t[1]<=2 && $t[0]%4==0){
+//	echo '<script>location.reload(true)</script>';
+	if($t[1]>=0&&$t[1]<1 && $t[0]%12==0){
 		update(false,true,false,false);
 		die();
 	}
 
-	echo getTask($time).'<br>';	
+//	echo getTask($time).'<br>';	
 	
 	switch(getTask($time)){
 		case 'refresh': refresh(); break;
-		case 'tieba': signForTieba(20); break;
+		case 'tieba': signForTieba(40); break;
 		case 'zhidao': signForZhidao(); break;
 		case 'wenku': signForWenku(); break;
 		case 'update': update(); break;
 		case 'zhidaoLuck': zhidaoLuck(); break;
 		default: echo 'over'; break;
 	}
+
 
 	function refresh($n=5){
 		$DB=new mysqli(HOSTNAME, HOSTUSER, HOSTPASSWORD, HOSTDB);
@@ -47,16 +48,15 @@
 					$result2 = $DB->query($sql);
 					$row = $result2->fetch_assoc();
 					if(empty($row['uid'])){
-						$sql="INSERT INTO `tieba` (`uid`, `tieba`, `is_sign`) VALUES ('{$uid}','{$result[data][$i][forum_name]}', '0');";
+						$sql="INSERT INTO `tieba` (`uid`, `tieba`, `is_sign`) VALUES ('{$uid}','{$result['data'][$i]['forum_name']}', '0');";
 						$DB->query($sql);
 						$count++;
 					}
 				}
 			}catch(Exception $e){
-				var_dump($e);
 			}
 			unset($utl);
-			echo '更新成功,用户'.$name.'新增'.$count.'个贴吧'.'<br>';
+		//	echo '更新成功,用户'.$name.'新增'.$count.'个贴吧'.'<br>';
 		}
 		$DB->close();
 		return '';
@@ -95,7 +95,7 @@
 		$sql = 'select * from info where `is_sign_wenku` = 0';
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
-			echo '<br>'.$row['un'];
+	//		echo '<br>'.$row['un'];
 			$utl = new BaiduUtil($row['bduss']);
 			$utl->signForWenku();
 			$sql="update info set is_sign_wenku = 1 where uid={$row['uid']}";
@@ -114,8 +114,13 @@
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
 			$utl = new BaiduUtil($row['bduss']);
-			$utl->signForZhidao();
-			$sql="update info set is_sign_zhidao = 1 where uid={$row['uid']}";
+			$r = $utl->signForZhidao();
+			if($r['clientSign']['errNo'] == 0 || $r['clientSign']['errNo'] == 10314){
+				$sql="update info set is_sign_zhidao = 1 where uid={$row['uid']}";
+			}else if($r['clientSign']['errNo'] == 3){
+				$sql="update info set is_sign_zhidao = 3 where uid={$row['uid']}";
+			}
+
 			$DB->query($sql);
 		}
 		$DB->close();
@@ -136,7 +141,7 @@
 	}
 
 	function getTask($time){
-		$re = json_decode(file_get_contents('cronlog.php'),1);
+		$re = json_decode(file_get_contents(dirname(__FILE__).'/cronlog.php'),1);
 		foreach($re as $key => $value){
 			$t = explode(' ',$value);
 			if(strtotime($time)>=strtotime($t[0])&&strtotime($time)<=strtotime($t[1])){
@@ -168,11 +173,12 @@
 					$sql="select * from tieba where is_sign = 3 order by rand() limit 1";
 					$result = $DB->query($sql);
 					$row = $result->fetch_assoc();
+					$flagUnkown = true;
 				}else if(empty($row)){
 					return 'over';
 				}
 			}
-			$sql="select * from info where uid={$row[uid]}";
+			$sql="select * from info where uid={$row['uid']}";
 			$result_=$DB->query($sql);
 			if(empty($result_)){
 				return;
@@ -187,11 +193,17 @@
 				case '110001': $st=3; break;
 				case '340011': $st=4; break;
 				case '1':case '3':
-					$sql = "delete from tieba where uid = {$row[uid]}";
+					$sql = "delete from tieba where uid = {$row['uid']}";
 					$DB->query($sql);
 					break;
 			}
-			$sql="update tieba set is_sign = {$st} where uid={$row[uid]} and tieba = '{$row[tieba]}'";
+			// var_dump($re);
+			if($flagUnkown && $st == 3){
+				$sql="update tieba set is_sign = 5 where uid={$row['uid']} and tieba = '{$row['tieba']}'";
+				$flagUnkown = false;
+			}else{
+				$sql="update tieba set is_sign = {$st} where uid={$row['uid']} and tieba = '{$row['tieba']}'";
+			}
 			$DB->query($sql);
 			unset($utl);
 		}

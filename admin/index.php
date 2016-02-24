@@ -128,7 +128,7 @@ aaa;
 			$res['signed'] = $re['signed'];
 
 			/* 统计失败数 */
-			$sql = 'select count(*) AS failed from tieba where is_sign=3 or is_sign=4';
+			$sql = 'select count(*) AS failed from tieba where is_sign=3 or is_sign=4 or is_sign=5';
 			$result=$DB->query($sql);
 			$re = $result->fetch_assoc();
 			$res['failed'] = $re['failed'];
@@ -166,7 +166,11 @@ aaa;
 						$f++;
 					}
 				}
-				echo "<tr><td>{$t}</td><td id=\"id\"><a onclick=\"operate('{$row[un]}')\">{$row[un]}</a></td><td>{$y}</td><td>{$f}</td><td>{$q}</td><td>{$i}</td></tr>";
+				if($i>0){
+					echo "<tr><td>{$t}</td><td id=\"id\"><a onclick=\"operate('{$row[un]}')\">{$row[un]}</a></td><td>{$y}</td><td>{$f}</td><td>{$q}</td><td>{$i}</td></tr>";
+				}else{
+					echo "<tr style=\"color:#f00\"><td>{$t}</td><td id=\"id\"><a onclick=\"operate('{$row[un]}')\">{$row[un]}</a></td><td>{$y}</td><td>{$f}</td><td>{$q}</td><td>{$i}</td></tr>";
+				}
 			}
 			echo '</table>';
 			echo <<<aaa

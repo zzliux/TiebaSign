@@ -68,7 +68,7 @@
 					<div class="form-group">
 						<label for="input_user_name" class="col-sm-3 control-label">用户名</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="input_user_name" name="un" placeholder="仅可以使用百度ID" value="<?php echo $_GET[un] ?>">
+							<input type="text" class="form-control" id="input_user_name" name="un" placeholder="仅可以使用百度ID" value="<?php echo htmlentities($_GET['un']) ?>">
 						</div>
 					</div>
 					<div class="form-group">
@@ -113,7 +113,7 @@
 							case 0: $re[$i]['is_sign']='<font color="#FFA500">Queueing</font>'; break;
 							case 1: $re[$i]['is_sign']='<font color="#008000">Yes</font>'; $y++; break;
 							case 2: $re[$i]['is_sign']='<font color="#008000">Signed</font>'; $y++; break;
-							case 3: $re[$i]['is_sign']='<font color="#FF0000">Unknown</font>'; break;
+							case 3: case 5:$re[$i]['is_sign']='<font color="#FF0000">Unknown</font>'; break;
 							case 4: $re[$i]['is_sign']='<font color="#FF0000">Too fast</font>'; break;
 						}
 						$i++;

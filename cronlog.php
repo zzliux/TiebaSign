@@ -1,1 +1,1 @@
-{"update":"0:0 0:3","refresh":"0:3 0:20","zhidao":"0:20 0:30","wenku":"0:30 0:40","zhidaoLuck":"11:00 0:0","tieba":"0:40 23:59"}
+{"update":"0:0 0:1","refresh":"0:1 0:0","zhidao":"0:1 0:2","wenku":"0:2 0:3","zhidaoLuck":"11:00 0:0","tieba":"0:3 23:59"}

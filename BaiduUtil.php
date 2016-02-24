@@ -6,18 +6,18 @@
  */
 class BaiduUtil{
 
-	public $useZlib	   = FALSE;
-	public $returnThis	= FALSE;
-	public $lastFetch	 = array();
-	public $lastReturn	= array();
+	public $useZlib       = FALSE;
+	public $returnThis    = FALSE;
+	public $lastFetch     = array();
+	public $lastReturn    = array();
 	public $lastformData  = array();
 	
-	protected $un		 = '';
-	protected $uid		= '';
-	protected $tbs		= '';
-	protected $bduss	  = '';
-	protected $cookie	 = '';
-	protected $client	 = array();
+	protected $un         = '';
+	protected $uid        = '';
+	protected $tbs        = '';
+	protected $bduss      = '';
+	protected $cookie     = '';
+	protected $client     = array();
 	protected $formData   = array();
 	protected $forumPages = array();
 
@@ -779,18 +779,35 @@ EOF;
 	public function signForZhidao(){
 		$cookie = $this->cookie;
 		$postData = 'cm=100509';
-		$url = 'http://zhidao.baidu.com/submit/user';
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_URL, 'http://zhidao.baidu.com/submit/user');
 		curl_setopt($ch, CURLOPT_COOKIE, $cookie);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$content = curl_exec($ch);
+		$content = curl_exec($ch);//webSign
+		
+		curl_setopt($ch, CURLOPT_URL, 'http://zhidao.baidu.com/mapi/act/v4/signreward');
+		// curl_setopt($ch, CURLOPT_URL, 'http://zhidao.baidu.com/mapi/act/v4/signcalendar');//这个URI的话是签到并奖励,formdata signdays=$signdays&activedays=$activedays
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+			'Accept: application/json',
+			'Origin: http://zhidao.baidu.com',
+			'X-Requested-With: XMLHttpRequest',
+			'User-Agent: Mozilla/5.0 (Linux; Android 4.4.4; m1 note Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36',
+			'Referer: http://zhidao.baidu.com/s/sign/index.html',
+			'Accept-Encoding: gzip,deflate',
+			'Accept-Language: zh-CN,en-US;q=0.8'
+			));
+		curl_setopt($ch, CURLOPT_POSTFIELDS, '');
+
+		$content2 = curl_exec($ch);//clientSign
 		curl_close($ch);
-
-
-		return json_decode($content, 1);
-		//0且msg是success表示成功,2表示已签
+		$res = array(
+			'webSign'    => json_decode($content,true),
+			'clientSign' => json_decode($content2,true)
+			);
+		return $res;
+		//webSign->0且msg是success表示成功,2表示已签
+		//clientSign->0成功
 	}
 
 	/* 尼玛这个返回值一直是俩0..不知道怎样才是成功的 */
@@ -820,22 +837,22 @@ EOF;
 		curl_setopt( $ch, CURLOPT_COOKIE, $this->cookie );
 		curl_setopt( $ch, CURLOPT_POST, true );
 		$array = array(
-				'doc_id'=> '6fb6872af7ec4afe04a1dfdc',	//收藏的图书的ID
-				'app_ver'=> '2.4.9',
-				'ua'=> 'bd_720_1104_SM-G900F_2.4.9_4.4.2',
-				'optk'=> '*',
-				'bid'=> '2',
-				'app_ua'=> 'SM-G900F',
-				'uid'=> 'abd_460702768361639_mo_AD%3A70%3A80%3AE6%3AF9%3AB3',
-				'cuid'=> '7CD8A9559DC927C8923EB3F8FBDF4F71%7C460702768361639',
-				'fr'=> '3',
-				'Bdi_bear'=> 'WIFI',
-				'from'=> '3_asread',
-				'bduss'=> $BDUSS,
-				'pid'=> '1',
-				'screen'=> '1104_720',
-				'sys_ver'=> '4.4.2',
-				'opid'=> 'wk_na',
+				'doc_id'   => '6fb6872af7ec4afe04a1dfdc',	//收藏的图书的ID
+				'app_ver'  => '2.4.9',
+				'ua'       => 'bd_720_1104_SM-G900F_2.4.9_4.4.2',
+				'optk'     => '*',
+				'bid'      => '2',
+				'app_ua'   => 'SM-G900F',
+				'uid'      => 'abd_460702768361639_mo_AD%3A70%3A80%3AE6%3AF9%3AB3',
+				'cuid'     => '7CD8A9559DC927C8923EB3F8FBDF4F71%7C460702768361639',
+				'fr'       => '3',
+				'Bdi_bear' => 'WIFI',
+				'from'     => '3_asread',
+				'bduss'    => $BDUSS,
+				'pid'      => '1',
+				'screen'   => '1104_720',
+				'sys_ver'  => '4.4.2',
+				'opid'     => 'wk_na',
 		);
 		curl_setopt($ch,CURLOPT_POSTFIELDS,http_build_query($array));
 		$re = @json_decode(curl_exec($ch),ture);
@@ -851,22 +868,22 @@ EOF;
 		curl_setopt( $ch, CURLOPT_COOKIE, $this->cookie );
 		curl_setopt( $ch, CURLOPT_POST, true );
 		$array = array(
-				'app_ver'=> '2.4.9',
-				'ua'=> 'bd_720_1104_SM-G900F_2.4.9_4.4.2',
-				'optk'=> '*',
-				'bid'=> '2',
-				'app_ua'=> 'SM-G900F',
-				'uid'=> 'abd_460702768361639_mo_AD%3A70%3A80%3AE6%3AF9%3AB3',
-				'cuid'=> '7CD8A9559DC927C8923EB3F8FBDF4F71%7C460702768361639',
-				'fr'=> '3',
-				'Bdi_bear'=> 'WIFI',
-				'from'=> '3_asread',
-				'bduss'=> $BDUSS,
-				'pid'=> '1',
-				'screen'=> '1104_720',
-				'sys_ver'=> '4.4.2',
-				'opid'=> 'wk_na',
-				'book_ids'=> '6fb6872af7ec4afe04a1dfdc',	//删除的图书的ID
+				'app_ver'  => '2.4.9',
+				'ua'       => 'bd_720_1104_SM-G900F_2.4.9_4.4.2',
+				'optk'     => '*',
+				'bid'      => '2',
+				'app_ua'   => 'SM-G900F',
+				'uid'      => 'abd_460702768361639_mo_AD%3A70%3A80%3AE6%3AF9%3AB3',
+				'cuid'     => '7CD8A9559DC927C8923EB3F8FBDF4F71%7C460702768361639',
+				'fr'       => '3',
+				'Bdi_bear' => 'WIFI',
+				'from'     => '3_asread',
+				'bduss'    => $BDUSS,
+				'pid'      => '1',
+				'screen'   => '1104_720',
+				'sys_ver'  => '4.4.2',
+				'opid'     => 'wk_na',
+				'book_ids' => '6fb6872af7ec4afe04a1dfdc',	//删除的图书的ID
 		);
 		curl_setopt($ch,CURLOPT_POSTFIELDS,http_build_query($array));
 		$re = @json_decode(curl_exec($ch),ture);
@@ -886,7 +903,7 @@ EOF;
 		preg_match_all('/\'luckyToken\', \'(\w+)\'|\'freeChance\', \'(\w+)\'/', $content, $result);
 		$freeChance = $result[2][0];
 		if($freeChance != '1'){
-			$re['errno'] = '1';
+			$re['errno']  = '1';
 			$re['errmsg'] = '当前没有免费抽奖';
 			return $re;
 		}
