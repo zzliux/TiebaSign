@@ -5,14 +5,11 @@
 	require_once('BaiduUtil.php');
 	$time = date('H:i',time());
 	$t = explode(':',$time);
-//	echo '<script>location.reload(true)</script>';
 	if($t[1]>=0&&$t[1]<1 && $t[0]%12==0){
 		update(false,true,false,false);
 		die();
 	}
 
-//	echo getTask($time).'<br>';	
-	
 	switch(getTask($time)){
 		case 'refresh': refresh(); break;
 		case 'tieba': signForTieba(40); break;
@@ -56,7 +53,6 @@
 			}catch(Exception $e){
 			}
 			unset($utl);
-		//	echo '更新成功,用户'.$name.'新增'.$count.'个贴吧'.'<br>';
 		}
 		$DB->close();
 		return '';
@@ -95,7 +91,6 @@
 		$sql = 'select * from info where `is_sign_wenku` = 0';
 		$result = $DB->query($sql);
 		while($row = $result->fetch_assoc()){
-	//		echo '<br>'.$row['un'];
 			$utl = new BaiduUtil($row['bduss']);
 			$utl->signForWenku();
 			$sql="update info set is_sign_wenku = 1 where uid={$row['uid']}";
@@ -197,7 +192,6 @@
 					$DB->query($sql);
 					break;
 			}
-			// var_dump($re);
 			if($flagUnkown && $st == 3){
 				$sql="update tieba set is_sign = 5 where uid={$row['uid']} and tieba = '{$row['tieba']}'";
 				$flagUnkown = false;

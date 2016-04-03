@@ -82,7 +82,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-3 col-sm-9">
-						<a href="./refresh.php?un=<?php echo $name ?>">更新贴吧</a>&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a>
+						<a href="./refresh.php?un=<?php echo htmlentities($name) ?>">更新贴吧</a>&nbsp;&nbsp;<a href="submitBDUSS.php">提交BDUSS</a>
 					</div>
 				</div>
 		<?php
